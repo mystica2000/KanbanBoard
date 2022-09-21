@@ -1,0 +1,18 @@
+.box-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.cell-container {
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+    min-height: 100px;
+    margin: 10px;
+    padding: 4px;
+}
+
+.box {
+    margin: 10px;
+    border: 2px solid black;
+}

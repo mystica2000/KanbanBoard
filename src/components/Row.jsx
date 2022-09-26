@@ -4,8 +4,6 @@ import global from "../store/global";
 
 function Row(props) {
 
-    console.log(props)
-
     const {addNew} = global;
     const [textInput,setTextInput] = createSignal('');
 
@@ -19,7 +17,8 @@ function Row(props) {
     return (
         <div className="btn-wrapper">
           <button className="btn" onClick={(e) => dialog.showModal()}>
-            <img src="src/assets/add.svg" alt="Add icon" />
+            {/* <img src="src/assets/add.svg" alt="Add icon" /> */}
+            Add!
           </button>
             <dialog id="dialog" ref={dialog}>
                 <span className="row">

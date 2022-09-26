@@ -44,7 +44,7 @@ function Box(props) {
                 <h2>{props.name}</h2>
                 <Dynamic component={options[props.name.split(" ").join("")]}/>
             </div>
-            <ul onDrop={onTargetDropped} onDragOver={onTargetDraggedOver} box={props.id} id={props.id}>
+            <ul onDrop={onTargetDropped} onDragOver={onTargetDraggedOver} box={props.id} id={props.id} className="ul">
                 {
                      ()=> {
                          let arr = []

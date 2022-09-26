@@ -3,6 +3,32 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+
+
+
+@media screen and (max-width:720px) {
+    .box-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .box {
+        min-height: 300px;
+    }
+
+}
+
+
+@media screen and (max-width:970px) {
+
+
+.btn-wrapper,h2 {
+    font-size: 1em;
+}
+}
+
+
 .cell-container {
     display: flex;
     flex-direction: column;
@@ -15,4 +41,83 @@
 .box {
     margin: 10px;
     border: 2px solid black;
+}
+
+dialog:not([open]) {
+    pointer-events: none;
+    opacity: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.btn-wrapper,h2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.btn-wrapper {
+    align-items: flex-end;
+}
+
+
+.btn {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    transition: all 0.5s linear;
+    border-radius: 50px;
+}
+
+.btn:active,.btn:hover,.btn:active::after {
+    transform: rotate(45deg);
+    background-color: rgb(107, 204, 245);
+}
+
+
+.section_head {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+
+   outline:2px solid black;
+}
+
+
+textarea {
+    padding: 10px;
+
+    max-width: 100%;
+    line-height: 1.5;
+    box-shadow: 1px 1px 1px #999;
+
+    resize: none;
+}
+
+
+dialog::backdrop {
+    background: rgb(244, 226, 226);
+    opacity: 0.5;
+}
+
+h3 {
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 1px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }

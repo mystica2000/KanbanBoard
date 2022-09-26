@@ -2,7 +2,7 @@
 function Header() {
     return (
       <>
-        <div style={{ 'text-align':'center' }}>Header works</div>
+        <h1 style={{ 'text-align':'center' }}>Kanban Board 🗒️</h1>
       </>
     );
   }

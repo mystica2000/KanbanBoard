@@ -1,146 +1,98 @@
-
-import { createSignal } from 'solid-js';
 import './Board.css';
+import global from '../store/global';
+import Row from './Row'
+import { Dynamic } from 'solid-js/web';
+
+
+const rowTodo = () => <Row name="todo" index="0"/>
+const rowInProgress = () => <Row name="inprogress" index="1"/>
+const rowDone = () => <Row name="done" index="2"/>
+
+const options = {
+    Todo: rowTodo,
+    InProgress: rowInProgress,
+    Done: rowDone
+}
 
 
 function Cell({box,id,storeSourceDrag,text}) {
 
     return (
-        <div className='cell-container' draggable={true} onDragStart={storeSourceDrag} box={box} id={id}>
+        <li className='cell-container' draggable={true} onDragStart={storeSourceDrag} box={box} id={id}>
             {text}
-        </div>
+        </li>
     )
 }
 
 
 function Box(props) {
 
+    const {setSource,setDesc,collapseBoard} = global
+
     const onTargetDropped = (event) => {
-        props.setDesc(event.target.id);
-        props.collapseBoard();
+        setDesc(event.target.id);
+        collapseBoard();
     }
 
     const onTargetDraggedOver = (event) => {
         event.preventDefault();
     }
 
-
     return (
-        <div className="box" onDrop={onTargetDropped}
-        onDragOver={onTargetDraggedOver} box={props.id} id={props.id}
-        >
-            { ()=> {
-                let arr = []
-                for(let i=0;i<props.noc;i++) {
-                    arr.push(<Cell box={props.id} id={props.id + i} storeSourceDrag={(e)=> {
-                        props.setSource(e.target.id)}}
-                    text={props.text[i]}/>)
+        <section className="box">
+            <div className="section_head">
+                <h2>{props.name}</h2>
+                <Dynamic component={options[props.name.split(" ").join("")]}/>
+            </div>
+            <ul onDrop={onTargetDropped} onDragOver={onTargetDraggedOver} box={props.id} id={props.id}>
+                {
+                     ()=> {
+                         let arr = []
+                         for(let i=0;i<props.noc;i++) {
+                            arr.push(
+                               <Cell
+                                    box={props.id}
+                                    id={props.id + i}
+                                    storeSourceDrag={(e)=> {
+                                         setSource(e.target.id)
+                                    }}
+                                    text={props.text[i]}
+                                />)
+                         }
+                         return arr;
+                        }
                 }
-                return arr;
-            }
-            }
-        </div>
+            </ul>
+        </section>
     )
 }
 
 function Board() {
 
-    const [source,setSource] = createSignal(0)
-    const [desc,setDesc] = createSignal(0);
+    const {noc,text} = global
 
-    const [noc,setNoc] = createSignal([3,0,2]);
-
-    const [text,setText] = createSignal(
-        {
-            0:['A','B','C'],
-            1:[],
-            2:['D','E']
-        });
-
-    const collapseBoard = () => {
-        let arr = [...noc()];
-        arr[source()[0]] = arr[source()[0]] - 1;
-
-        arr[desc()[0]] = arr[desc()[0]] + 1;
-
-        let Descbox = desc()[0]
-        let srcBox = source()[0]
-
-
-        let srcValue = text()[source()[0]][source()[1]]
-
-        let cpy = text();
-
-        console.log(source())
-        console.log(desc())
-
-        if(Descbox - srcBox == 0) {
-
-            let temp = []
-            let srcRow = cpy[Descbox]
-
-            console.log(cpy[Descbox])
-            for(let i=0;i<srcRow.length;i++) {
-                console.log(i,source()[1])
-                if(i!=source()[1]) {
-                    temp.push(srcRow[i])
-                }
-            }
-            // remove and insert!
-            cpy[Descbox] = temp;
-            cpy[Descbox].splice(desc()[1],0,srcValue);
-            console.log(temp)
-
-        }
-        else if (desc()[1]) {
-            // insert and remove
-            cpy[Descbox].splice(desc()[1],0,srcValue);
-        } else {
-            cpy[Descbox].push(srcValue);
-        }
-
-
-        console.log(cpy[Descbox])
-        console.log(cpy[srcBox])
-
-
-        let srcRow = cpy[srcBox]
-
-        let temp = []
-
-        if(srcBox != Descbox) {
-            for(let i=0;i<srcRow.length;i++) {
-                if(i!=source()[1]) {
-                    temp.push(srcRow[i])
-                }
-            }
-        } else {
-            temp = srcRow;
-        }
-
-        console.log(temp)
-
-        cpy[srcBox] = temp;
-        setText(cpy)
-        setNoc(arr);
-    }
-
+    const boardNames = ["Todo","In Progress","Done"]
 
     return (
-      <div className="box-container">
-        {renderBox()}
-      </div>
-    );
-
-
-    function renderBox() {
+      <main className="box-container">
+        {
+           ()=> {
             let arr = []
             for(let i=0;i<noc().length;i++) {
-              arr.push(<Box noc={noc()[i]} id={i.toString()} source={source} setSource={setSource} desc={desc} setDesc={setDesc}
-              collapseBoard={collapseBoard} text={text()[i]}/>);
+              arr.push(
+                   <Box
+                       noc={noc()[i]}
+                       id={i.toString()}
+                       text={text()[i]}
+                       name={boardNames[i]}
+                   />
+                );
             }
             return arr;
-    }
+           }
+        }
+      </main>
+    );
   }
 
   export default Board;

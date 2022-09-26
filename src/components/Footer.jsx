@@ -2,7 +2,7 @@
 function Footer() {
     return (
       <>
-        <div style={{ 'text-align':'center' }}>Footer Works</div>
+        <div style={{ 'text-align':'center' }}>Made by Mystica</div>
       </>
     );
   }

@@ -17,15 +17,31 @@ const options = {
 
 function Cell({box,id,storeSourceDrag,text}) {
 
+    const handleDoubleClick = (e) => {
+        console.log("SAVE",e)
+        e.target.contentEditable = true;
+    }
+
+    const handleFocusOut = (e) => {
+        e.target.contentEditable = false
+    }
+
     return (
-        <li className='cell-container' draggable={true} onDragStart={storeSourceDrag} box={box} id={id}>
-            {text}
+        <li className='cell-container' draggable={true}
+        onDragStart={storeSourceDrag} box={box} id={id}
+        onDblClick={handleDoubleClick} onBlur={handleFocusOut}
+        >
+            <ul>
+                <li>{text}</li>
+                <li></li>
+            </ul>
         </li>
     )
 }
 
 
 function Box(props) {
+
 
     const {setSource,setDesc,collapseBoard} = global
 
@@ -38,13 +54,15 @@ function Box(props) {
         event.preventDefault();
     }
 
+
     return (
-        <section className="box">
+        <section className="box" >
             <div className="section_head">
                 <h2>{props.name}</h2>
                 <Dynamic component={options[props.name.split(" ").join("")]}/>
             </div>
-            <ul onDrop={onTargetDropped} onDragOver={onTargetDraggedOver} box={props.id} id={props.id} className="ul">
+            <ul onDrop={onTargetDropped} onDragOver={onTargetDraggedOver} box={props.id} id={props.id} className="ul"
+              ref={ (e) => {console.log(e)}}>
                 {
                      ()=> {
                          let arr = []
@@ -80,7 +98,7 @@ function Board() {
             let arr = []
             for(let i=0;i<noc().length;i++) {
               arr.push(
-                   <Box
+                   <Box ref={box}
                        noc={noc()[i]}
                        id={i.toString()}
                        text={text()[i]}
@@ -88,6 +106,7 @@ function Board() {
                    />
                 );
             }
+
             return arr;
            }
         }

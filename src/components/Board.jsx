@@ -2,7 +2,7 @@ import './Board.css';
 import global from '../store/global';
 import Row from './Row'
 import { Dynamic } from 'solid-js/web';
-
+import deleteIcon from '../assets/delete.svg'
 
 const rowTodo = () => <Row name="todo" index="0" />
 const rowInProgress = () => <Row name="inprogress" index="1" />
@@ -37,7 +37,7 @@ function Cell({ box, id, storeSourceDrag, text }) {
             <span onDblClick={handleDoubleClick} onBlur={handleFocusOut} id={id}>{text()}</span>
             <button type="button" className='btn-none' onClick={handleDelete}
             >
-                <img src='src/assets/delete.svg' width="20px" height="20px" className='delete-img' alt='delete icon' id={id} />
+                <img src={deleteIcon} width="20px" height="20px" className='delete-img' alt='delete icon' id={id} />
             </button>
         </li>
     )

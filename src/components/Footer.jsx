@@ -1,10 +1,10 @@
 
 function Footer() {
-    return (
-      <>
-        <div style={{ 'text-align':'center' }}>Footer Works</div>
-      </>
-    );
-  }
+  return (
+    <>
+      <div style={{ 'text-align': 'center' }}>Made by Mystica</div>
+    </>
+  );
+}
 
-  export default Footer;
+export default Footer;

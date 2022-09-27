@@ -35,9 +35,9 @@ function Cell({ box, id, storeSourceDrag, text }) {
         <li className='cell-container' draggable={true}
             onDragStart={storeSourceDrag} box={box} id={id}>
             <span onDblClick={handleDoubleClick} onBlur={handleFocusOut} id={id}>{text()}</span>
-            <button type="button" className='btn-none' onClick={handleDelete}
+            <button type="button" className='btn-none' onClick={handleDelete} id={id}
             >
-                <img src='src/assets/delete.svg' width="20px" height="20px" className='delete-img' alt='delete icon' id={id} />
+                ❌
             </button>
         </li>
     )

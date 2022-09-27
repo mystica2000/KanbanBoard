@@ -5,7 +5,6 @@ import './App.css';
 
 function App() {
 
-  console.log("LOG")
 
   return (
     <div className="container">

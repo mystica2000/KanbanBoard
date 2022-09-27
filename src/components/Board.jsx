@@ -4,9 +4,9 @@ import Row from './Row'
 import { Dynamic } from 'solid-js/web';
 
 
-const rowTodo = () => <Row name="todo" index="0"/>
-const rowInProgress = () => <Row name="inprogress" index="1"/>
-const rowDone = () => <Row name="done" index="2"/>
+const rowTodo = () => <Row name="todo" index="0" />
+const rowInProgress = () => <Row name="inprogress" index="1" />
+const rowDone = () => <Row name="done" index="2" />
 
 const options = {
     Todo: rowTodo,
@@ -15,26 +15,30 @@ const options = {
 }
 
 
-function Cell({box,id,storeSourceDrag,text}) {
+function Cell({ box, id, storeSourceDrag, text }) {
 
+    const { updateCell, deleteCell } = global
     const handleDoubleClick = (e) => {
-        console.log("SAVE",e)
         e.target.contentEditable = true;
     }
 
     const handleFocusOut = (e) => {
+        updateCell(e.target.id, e.target.innerText)
         e.target.contentEditable = false
+    }
+
+    const handleDelete = (e) => {
+        deleteCell(e.target.id)
     }
 
     return (
         <li className='cell-container' draggable={true}
-        onDragStart={storeSourceDrag} box={box} id={id}
-        onDblClick={handleDoubleClick} onBlur={handleFocusOut}
-        >
-            <ul>
-                <li>{text}</li>
-                <li></li>
-            </ul>
+            onDragStart={storeSourceDrag} box={box} id={id}>
+            <span onDblClick={handleDoubleClick} onBlur={handleFocusOut} id={id}>{text()}</span>
+            <button type="button" className='btn-none' onClick={handleDelete}
+            >
+                <img src='src/assets/delete.svg' width="20px" height="20px" className='delete-img' alt='delete icon' id={id} />
+            </button>
         </li>
     )
 }
@@ -43,15 +47,23 @@ function Cell({box,id,storeSourceDrag,text}) {
 function Box(props) {
 
 
-    const {setSource,setDesc,collapseBoard} = global
+    const { setSource, setDesc, collapseBoard } = global
 
     const onTargetDropped = (event) => {
+        console.log(event.target.id)
         setDesc(event.target.id);
         collapseBoard();
     }
 
     const onTargetDraggedOver = (event) => {
-        event.preventDefault();
+
+        if(event.cancelable && event.preventDefault()) {
+            event.preventDefault()
+        }
+
+        if(event instanceof MouseEvent) {
+            event.dataTransfer.dropEffect = 'move';
+        }
     }
 
 
@@ -59,26 +71,28 @@ function Box(props) {
         <section className="box" >
             <div className="section_head">
                 <h2>{props.name}</h2>
-                <Dynamic component={options[props.name.split(" ").join("")]}/>
+                <Dynamic component={options[props.name.split(" ").join("")]} />
             </div>
-            <ul onDrop={onTargetDropped} onDragOver={onTargetDraggedOver} box={props.id} id={props.id} className="ul"
-              ref={ (e) => {console.log(e)}}>
+            <ul onDrop={onTargetDropped}
+            onDragOver={onTargetDraggedOver}
+            box={props.id} id={props.id} className="ul">
                 {
-                     ()=> {
-                         let arr = []
-                         for(let i=0;i<props.noc;i++) {
+                    () => {
+                        let arr = []
+                        for (let i = 0; i < props.noc; i++) {
                             arr.push(
-                               <Cell
+                                <Cell
                                     box={props.id}
                                     id={props.id + i}
-                                    storeSourceDrag={(e)=> {
-                                         setSource(e.target.id)
+                                    storeSourceDrag={(e) => {
+                                        if(e instanceof MouseEvent){ e.dataTransfer.effectAllowed = 'move';}
+                                        setSource(e.target.id)
                                     }}
                                     text={props.text[i]}
                                 />)
-                         }
-                         return arr;
                         }
+                        return arr;
+                    }
                 }
             </ul>
         </section>
@@ -87,31 +101,31 @@ function Box(props) {
 
 function Board() {
 
-    const {noc,text} = global
+    const { noc, text } = global
 
-    const boardNames = ["Todo","In Progress","Done"]
+    const boardNames = ["Todo", "In Progress", "Done"]
 
     return (
-      <main className="box-container">
-        {
-           ()=> {
-            let arr = []
-            for(let i=0;i<noc().length;i++) {
-              arr.push(
-                   <Box ref={box}
-                       noc={noc()[i]}
-                       id={i.toString()}
-                       text={text()[i]}
-                       name={boardNames[i]}
-                   />
-                );
+        <main className="box-container">
+            {
+                () => {
+                    let arr = []
+                    for (let i = 0; i < noc().length; i++) {
+                        arr.push(
+                            <Box ref={box}
+                                noc={noc()[i]}
+                                id={i.toString()}
+                                text={text()[i]}
+                                name={boardNames[i]}
+                            />
+                        );
+                    }
+
+                    return arr;
+                }
             }
-
-            return arr;
-           }
-        }
-      </main>
+        </main>
     );
-  }
+}
 
-  export default Board;
+export default Board;

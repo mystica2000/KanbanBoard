@@ -1,6 +1,6 @@
 .box-container {
     display: grid;
-    grid-template-columns:  minmax(0, 1fr)  minmax(0, 1fr)  minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
 }
 
 
@@ -8,6 +8,13 @@
     .box-container {
         display: flex;
         flex-direction: column;
+    }
+
+
+
+    .cell-container {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.4fr);
     }
 
 
@@ -30,15 +37,16 @@
 
 
 
-.btn-wrapper,h2 {
-    font-size: 1em;
-}
+    .btn-wrapper,
+    h2 {
+        font-size: 1em;
+    }
 }
 
 
 .cell-container {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     min-height: 100px;
     overflow: hidden;
     margin: 10px;
@@ -46,8 +54,10 @@
     background-color: #cedaff;
     border: 1px solid hotpink;
     display: block;
-    word-wrap:break-word;
+    word-wrap: break-word;
     box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.1fr);
 }
 
 .box {
@@ -67,7 +77,8 @@ form {
 }
 
 
-.btn-wrapper,h2 {
+.btn-wrapper,
+h2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -95,17 +106,19 @@ form {
 }
 
 
-.btn:active,.btn:hover,.btn:active::after {
+.btn:active,
+.btn:hover,
+.btn:active::after {
 
- background-color: #569bff;
+    background-color: #569bff;
 }
 
 
 .section_head {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
-   outline:2px solid black;
+    outline: 2px solid black;
 }
 
 
@@ -144,13 +157,19 @@ h3 {
     width: auto;
 }
 
-ul, li {list-style-type: none;padding: 0;}
+ul,
+li {
+    list-style-type: none;
+    padding: 0;
+}
 
 .close {
     background-color: #dc3545;
 }
 
-.close:active,.close:hover,.close::after {
+.close:active,
+.close:hover,
+.close::after {
     background-color: #e57a84;
 }
 
@@ -160,7 +179,7 @@ ul, li {list-style-type: none;padding: 0;}
     .btn {
         padding: 10px;
     }
-    }
+}
 
 
 .footer {
@@ -174,3 +193,42 @@ dialog {
     border-radius: 10px;
     box-sizing: border-box;
 }
+
+
+
+.btn-none {
+    border: 0;
+    background-color: transparent;
+    display: flex;
+    cursor: pointer;
+
+    padding: 9px;
+}
+
+
+
+@media screen and (max-width:976px) {
+
+    .btn-none {
+        padding: 2px;
+    }
+
+}
+
+
+
+@media screen and (max-width:746px) {
+    .cell-container {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.04fr);
+    }
+
+    .btn-none {
+        padding: 2px;
+    }
+
+}
+
+/* .delete-img {
+    position: fixed;
+} */
